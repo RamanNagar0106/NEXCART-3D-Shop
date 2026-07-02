@@ -49,3 +49,17 @@ function App() {
 }
 
 export default App;
+import express, { Request, Response } from "express";
+import pinoHttp from "pino-http";
+
+const app = express();
+
+app.use(pinoHttp());
+
+app.get("/", (req: Request, res: Response) => {
+  res.send("Server is running");
+});
+
+app.listen(3000, () => {
+  console.log("Server started on port 3000");
+});
