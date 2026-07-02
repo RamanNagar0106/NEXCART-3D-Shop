@@ -1,10 +1,12 @@
 import express, { Request, Response } from "express";
-import pinoHttp from "pino-http";
+import pinoHttp from "pino-http"; // ✅ correct import
 
 const app = express();
 
-// Middleware
-app.use(pinoHttp());
+// ✅ FIX: handle compatibility safely
+const logger = (pinoHttp as unknown as () => any)();
+
+app.use(logger);
 app.use(express.json());
 
 // Routes
@@ -16,5 +18,5 @@ app.get("/api/test", (req: Request, res: Response) => {
   res.json({ success: true });
 });
 
-// ✅ IMPORTANT: EXPORT DEFAULT
+// ✅ export default (required for index.ts)
 export default app;
