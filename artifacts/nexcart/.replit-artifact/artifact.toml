@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "NEXCART - Online Shopping"
+version = "1.0.0"
+id = "artifacts/nexcart"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24711
+
+[services.development]
+run = "pnpm --filter @workspace/nexcart run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/nexcart", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/nexcart/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24711"
+BASE_PATH = "/"
